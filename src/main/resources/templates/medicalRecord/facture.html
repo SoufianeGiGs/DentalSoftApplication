@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Facture</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .invoice {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            width: 80%;
+            margin: auto;
+        }
+
+        .invoice-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .invoice-header h1 {
+            margin: 0;
+        }
+
+        .invoice-details {
+            margin-bottom: 20px;
+        }
+
+        .invoice-details p {
+            margin: 5px 0;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .invoice-table th, .invoice-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+
+        .invoice-table th {
+            background-color: #f2f2f2;
+        }
+
+        .invoice-total {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .return-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .return-btn a {
+            padding: 10px 20px;
+            background-color: #337180;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .return-btn a:hover {
+            background-color: #1c2126;
+        }
+
+        .logo {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .logo img {
+            width: 250px;
+            height: 250px;
+            border-radius: 10%;
+        }
+    </style>
+</head>
+<body>
+<div class="invoice">
+    <div class="logo">
+        <img src="/images/img_9.png" alt="Logo">
+    </div>
+    <div class="invoice-header">
+        <h1>Facture</h1>
+    </div>
+    <div class="invoice-details">
+        <p><strong>Patient:</strong> John Doe</p>
+        <p><strong>Date:</strong> 2024-06-06</p>
+    </div>
+    <table class="invoice-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Rest to Pay</th>
+            <th>State</th>
+            <th>Amount Paid</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${situation.id}"></td>
+            <td th:text="${situation.date}"></td>
+            <td th:text="${situation.resteAPayer}"></td>
+            <td th:text="${situation.etat}"></td>
+            <td th:text="${situation.montantPaye}"></td>
+            <td th:text="${situation.total}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="invoice-total">
+        <p><strong>Total à Payer:</strong> <span th:text="${situation.resteAPayer}"></span></p>
+    </div>
+    <div class="return-btn">
+        <a href="#" onclick="window.history.back()">Retour</a>
+    </div>
+</div>
+</body>
+</html>

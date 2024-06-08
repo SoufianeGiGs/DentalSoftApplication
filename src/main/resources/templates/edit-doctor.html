@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Doctor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Header color */
+        .navbar-custom {
+            background-color: #337180; /* Change this to your app's color */
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .navbar-nav .nav-link {
+            color: white;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .btn-back {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container">
+        <a class="navbar-brand" href="#" style="font-size: 29px; font-weight: bold">Edit Doctor</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/doctors"style="font-size: 29px; font-weight: bold">Back to Doctor List</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container mt-4">
+    <form th:action="@{/edit-doctor/{id}(id=${doctor.id})}" th:object="${doctor}" method="post">
+        <div class="form-group">
+            <label for="nom">Doctor Name</label>
+            <input type="text" class="form-control" id="nom" th:field="*{nom}">
+        </div>
+        <div class="form-group">
+            <label for="specialite">Specialty</label>
+            <select class="form-control" id="specialite" th:field="*{specialite}">
+                <option value="Endodontie-Chirurgie dentaire">Endodontie-Chirurgie dentaire</option>
+                <option value="Prothèse">Prothèse</option>
+                <option value="Orthodontie">Orthodontie</option>
+                <option value="Autre">Autre</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="salaireDeBase">Base Salary</label>
+            <input type="number" class="form-control" id="salaireDeBase" th:field="*{salaireDeBase}">
+        </div>
+        <div class="form-group">
+            <label for="disponabilite">Availability</label>
+            <select class="form-control" id="disponabilite" th:field="*{disponabilite}">
+                <option value="Matin">Matin</option>
+                <option value="Après-midi">Après-midi</option>
+                <option value="Toute la journée">Toute la journée</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="assurance">Assurance</label>
+            <select class="form-control" id="assurance" th:field="*{assurance}">
+                <option value="CNOPS">CNOPS</option>
+                <option value="CNSS">CNSS</option>
+                <option value="CIMR">CIMR</option>
+                <option value="Autre">Autre</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="statusActuel">Current Status</label>
+            <input type="text" class="form-control" id="statusActuel" th:field="*{statusActuel}">
+        </div>
+        <div class="form-group">
+            <label for="dateRecrutement">Recruitment Date</label>
+            <input type="date" class="form-control" id="dateRecrutement" th:field="*{dateRecrutement}">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="@{/delete-doctor/{id}(id=${doctor.id})}" class="btn btn-danger">Delete</a>
+        </div>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

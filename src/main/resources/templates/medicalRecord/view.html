@@ -1,0 +1,377 @@
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            .navbar {
+                background-color: #337180; /* Bootstrap primary color */
+                color: white;
+                padding: 10px 0;
+            }
+
+            .navbar a {
+                color: white;
+                text-decoration: none;
+                margin-right: 20px;
+            }
+
+            .navbar a:hover {
+                text-decoration: underline;
+            }
+
+            .back-btn {
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1000; /* Ensures button is above other elements */
+            }
+
+            .back-btn a {
+                padding: 10px 20px;
+                background-color: #1c2126; /* Bootstrap primary color */
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+            }
+
+            .back-btn a:hover {
+                background-color: #337180; /* Darker shade of primary color on hover */
+            }
+
+            body {
+                font-family: 'Arial', sans-serif;
+            }
+
+            .container {
+                margin-top: 30px;
+            }
+
+            .header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .header img {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                margin-right: 20px;
+            }
+
+            .header-info {
+                font-size: 16px;
+            }
+
+            .header-info h1 {
+                font-size: 24px;
+                margin: 0;
+            }
+
+            .header-info p {
+                margin: 5px 0;
+            }
+
+            .card {
+                border-radius: 15px;
+            }
+
+            .card-title {
+                font-size: 18px;
+            }
+
+            .table thead th {
+                background-color: #337180;
+                color: white;
+            }
+
+            .table tbody tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            .table tbody tr:hover {
+                background-color: #ddd;
+            }
+
+            .form-section {
+                background-color: #f9f9f9;
+                padding: 20px;
+                border-radius: 15px;
+                margin-top: 20px;
+            }
+
+            .form-section h3 {
+                margin-bottom: 20px;
+            }
+
+            .form-label {
+                font-weight: bold;
+            }
+
+            .form-control, .form-select {
+                border-radius: 10px;
+            }
+
+            .btn-primary {
+                background-color: #337180;
+                border-color: #000000;
+            }
+            .nav-link.active,
+            .nav-link:focus,
+            .nav-link:hover {
+                color: black !important; /* Set text color to black */
+                background-color: white !important; /* Set background color to white */
+            }
+            .logo {
+                width: 70px; /* Adjust the width and height as needed */
+                height: 70px;
+            }
+
+        </style>
+        <title>Medical Record</title>
+    </head>
+    <body>
+
+    <div class="container">
+        <div class="header">
+            <img src="/images/img.png" alt="Patient Image">
+            <div class="header-info">
+                <h2><span th:text="${patient.nom} "></span>/ <span th:text="${patient.cin}"></span> / <span th:text="${patient.sexe}"></span></h2>
+                <p><i class="bi bi-envelope"></i> Email : <span th:text="${patient.email}"></span></p>
+                <p><i class="bi bi-geo-alt"></i> Assurance : <span th:text="${patient.assurance}"></span></p>
+                <p><i class="bi bi-calendar "></i> Ville : <span th:text="${patient.adresse.ville}"></span></p>
+                <p><i class="bi bi-card-text"></i> Ajouté le: <span th:text="${patient.dateDAjout}"></span></p>
+            </div>
+        </div>
+        <!-- Button to Go Back to Patient Page -->
+        <div class="back-btn">
+            <a href="/patients">Back to Patient Page</a>
+        </div>
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Medical Record Details</h5>
+                <p><strong>ID:</strong> <span th:text="${dossierMedicale.idDM}"></span></p>
+                <p><strong>Date de Création:</strong> <span th:text="${dossierMedicale.dateCréation}"></span></p>
+                <!-- Add other medical record details as needed -->
+            </div>
+        </div>
+
+        <!-- Nav tabs -->
+        <!-- Nav tabs -->
+        <!-- Nav tabs -->
+        <!-- Nav tabs -->
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs justify-content-center mt-4 mb-4" id="myTab" role="tablist" style="background-color: #337180;">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active text-white me-5" id="consultations-tab" data-bs-toggle="tab" data-bs-target="#consultations" type="button" role="tab" aria-controls="consultations" aria-selected="true">Consultations</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link text-white me-5" id="situation-financiere-tab" data-bs-toggle="tab" data-bs-target="#situation-financiere" type="button" role="tab" aria-controls="situation-financiere" aria-selected="false">Situation Financière</button>
+            </li>
+
+        </ul>
+
+
+
+
+        <!-- Tab content -->
+        <div class="tab-content" id="myTabContent">
+            <!-- Consultations Tab -->
+            <div class="tab-pane fade show active" id="consultations" role="tabpanel" aria-labelledby="consultations-tab">
+
+
+                <!-- Display Existing Consultations -->
+                <div class="mt-4">
+                    <h3>Consultations</h3>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Acte</th>
+                            <th>Prix de Base</th>
+                            <th>Nombre de Dent</th>
+                            <th>Prix Patient</th>
+                            <th>Note Medecin</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="consultation, iterStat : ${consultations}" th:if="${iterStat != null}">
+                            <td th:text="${iterStat.index + 1}"></td>
+                            <td th:text="${consultation.dateConsultation}"></td>
+                            <td th:text="${consultation.typeConsultation}"></td>
+                            <td th:text="${consultation.acte}"></td>
+                            <td th:text="${consultation.prixDeBase}"></td>
+                            <td th:text="${consultation.nombreDeDent}"></td>
+                            <td th:text="${consultation.prixPatient}"></td>
+                            <td th:text="${consultation.noteMedecin}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Form to Add New Consultation -->
+                <div class="form-section">
+                    <h3>Add New Consultation</h3>
+                    <form th:action="@{/medicalRecord/{id}/addConsultation(id=${dossierMedicale.idDM})}" th:object="${newConsultation}" method="post">
+                        <div class="mb-3">
+                            <label for="dateConsultation" class="form-label">Date Consultation</label>
+                            <input type="date" id="dateConsultation" th:field="*{dateConsultation}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="typeConsultation" class="form-label">Type Consultation</label>
+                            <select id="typeConsultation" th:field="*{typeConsultation}" class="form-select" required>
+                                <option th:each="type : ${T(com.example.myapplication.entities.Consultation.TypeConsultation).values()}"
+                                        th:value="${type}" th:text="${type}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="acte" class="form-label">Acte</label>
+                            <select id="acte" th:field="*{acte}" class="form-select" required>
+                                <option th:each="act : ${T(com.example.myapplication.entities.Consultation.Acte).values()}"
+                                        th:value="${act}" th:text="${act}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="prixDeBase" class="form-label">Prix de Base</label>
+                            <input type="number" step="0
+    .01" id="prixDeBase" th:field="*{prixDeBase}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nombreDeDent" class="form-label">Nombre de Dent</label>
+                            <input type="number" id="nombreDeDent" th:field="*{nombreDeDent}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="prixPatient" class="form-label">Prix Patient</label>
+                            <input type="number" step="0.01" id="prixPatient" th:field="*{prixPatient}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="noteMedecin" class="form-label">Note Medecin</label>
+                            <textarea id="noteMedecin" th:field="*{noteMedecin}" class="form-control"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Consultation</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Situation Financière Tab -->
+            <div class="tab-pane fade" id="situation-financiere" role="tabpanel" aria-labelledby="situation-financiere-tab">
+
+                <!-- Display Existing Financial Situations -->
+                <div class="mt-4">
+                    <h3>Financial Situations</h3>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Numero</th>
+                            <th>Date</th>
+                            <th>Montant</th>
+                            <th>Etat</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="situation, iterStat : ${financialSituations}">
+                            <td th:text="${iterStat.index + 1}"></td>
+                            <td th:text="${#dates.format(situation.date, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${situation.montantPaye}"></td>
+                            <td>
+                                <img class="logo" th:if="${situation.etat == 'paid'}" src="/images/img_8.png" alt="Paid">
+                                <img class="logo" th:if="${situation.etat == 'unpaid'}" src="/images/img_5.png" alt="Unpaid">
+
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <!-- Check if the situation is paid and display the appropriate image -->
+
+
+                                    <button class="btn btn-danger btn-sm" th:attr="data-id=${situation.id}" onclick="deleteFinancialSituation(this)">Delete</button>
+                                    <a th:href="@{'/medicalRecord/' + ${dossierMedicale.idDM} + '/facture/' + ${situation.id} + '/generate'}" class="btn btn-primary">Facture</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-section">
+                    <h3>Ajouter une Situation Financière</h3>
+                    <form th:action="@{/medicalRecord/{id}/addFinancialSituation(id=${dossierMedicale.idDM})}" th:object="${newFinancialSituation}" method="post">
+                        <div class="mb-3">
+                            <label for="consultationId" class="form-label">Consultation ID</label>
+                            <input type="text" id="consultationId" th:field="*{consultationId}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Date</label>
+                            <input type="date" id="date" th:field="*{date}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="resteAPayer" class="form-label">Rest to Pay</label>
+                            <input type="number" id="resteAPayer" th:field="*{resteAPayer}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="etat" class="form-label">State</label>
+                            <select id="etat" th:field="*{etat}" class="form-select" required>
+                                <option value="paid">Paid</option>
+                                <option value="unpaid">Unpaid</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="montantPaye" class="form-label">Amount Paid</label>
+                            <input type="number" id="montantPaye" th:field="*{montantPaye}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="total" class="form-label">Total</label>
+                            <input type="number" id="total" th:field="*{total}" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+
+
+            </div>
+
+
+
+
+
+            <!-- Third Tab -->
+            <div class="tab-pane fade" id="third" role="tabpanel" aria-labelledby="third-tab">
+                <!-- Add content for the third tab here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        // Function to handle deleting a financial situation
+        function deleteFinancialSituation(button) {
+            var id = button.getAttribute('data-id');
+            if (confirm('Are you sure you want to delete this financial situation?')) {
+                fetch(`/medicalRecord/${id}/deleteFinancialSituation`, {
+                    method: 'DELETE',
+                }).then(response => {
+                    if (response.ok) {
+                        var row = button.closest('tr');
+                        if (row) {
+                            row.remove();
+                        }
+                        // Optionally, display a success message
+                        alert('Financial situation deleted successfully.');
+                    } else {
+                        alert('Failed to delete the financial situation.');
+                    }
+                }).catch(error => console.error('Error deleting financial situation:', error));
+            }
+        }
+        window.deleteFinancialSituation = deleteFinancialSituation;
+    </script>
+
+
+    </body>
+    </html>
